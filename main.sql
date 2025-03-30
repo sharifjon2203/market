@@ -87,3 +87,103 @@ VALUES
 -- ('yaxshiroq yozish mumkin', 2, 2);
 -- ('Judda yomon post bo''pti', 1, 1),
 -- ('yaxshiroq yozish mumkin', 2, 2);
+CREATE TABLE parent_table (id SERIAL PRIMARY KEY, name VARCHAR);
+
+INSERT INTO
+    parent_table (name)
+VALUES
+    ('als'),
+    ('sasadaf'),
+    ('grg'),
+    ('oooo');
+
+CREATE TABLE child_table (
+    id SERIAL PRIMARY KEY,
+    parent_id INT,
+    FOREIGN KEY (parent_id) REFERENCES parent_table (id) ON DELETE SET NULL ON UPDATE SET NULL
+);
+
+INSERT INTO
+    child_table (parent_id)
+VALUES
+    (1),
+    (2),
+    (3),
+    (4);
+
+SELECT
+    id,
+    parent_id AS otasi_idsi
+FROM
+    users;
+
+SELECT
+    id,
+    parent_id otasi_idsi
+FROM
+    users;
+
+-- BEATWEn
+SELECT
+    user_id,
+    first_name || ' ' || last_name as full_name
+FROM
+    users
+where
+    user_id >= 4
+    AND user_id <= 7;
+
+SELECT
+    user_id,
+    first_name || ' ' || last_name as full_name
+FROM
+    users
+where
+    user_id NOT BETWEEN 4 AND 7;
+
+--
+SELECT
+    user_id,
+    first_name || ' ' || last_name as full_name
+FROM
+    users
+where
+    user_id BETWEEN '2025-12-12'
+
+-- value >= low AND value <= high
+-- in
+--
+SELECT
+    user_id,
+    first_name || ' ' || last_name as full_name
+FROM
+    users
+where
+    user_id IN (1, 2, 3);
+
+--  not in
+SELECT
+    user_id,
+    first_name || ' ' || last_name as full_name
+FROM
+    users
+where
+    user_id NOT IN (1, 2, 3);
+
+
+    -- Postgres data type cast
+    SELECT
+      CAST ('100' AS INTEGER);
+
+
+      --
+      SELECT
+        id,
+        CASE
+            WHEN rating~E'^\\d+$'
+                THEN CAST (rating AS INTEGER)
+            ELSE 0
+                END
+        as rating
+      FROM
+        ratings;
