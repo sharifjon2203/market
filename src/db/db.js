@@ -1,7 +1,7 @@
 import pg from "pg";
 const { Pool } = pg;
 
-const client = new Pool({
+export const client = new Pool({
   user: process.env.PG_USER || "postgres",
   password: process.env.PG_PASSWORD || "1532",
   host: process.env.PG_HOST || "localhost",
@@ -18,5 +18,3 @@ await client.connect();
 // const result2 = await client.query(`SELECT ${name}::text as name`);
 
 // console.log (result);
-
-export default client;
