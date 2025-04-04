@@ -2,6 +2,7 @@ import express from "express";
 
 import { client } from "./db/index.js";
 import { productRouter, userRouter } from "./routes/index.js";
+import { validationMiddlweare } from "./middlewares/validation.middleware.js";
 
 const app = express();
 
@@ -79,22 +80,28 @@ app.put("/user/:id", async (req, res, next) => {
   }
 });
 
-app.post("/login", async (req, res) => {
+app.post("/login", validationMiddlweare, async (req, res) => {
   try {
     const body = req.body;
 
     // const query = `SELECT * FROM users where username = '${body.username}' and password = '${body.password}'`;
-    const query = `SELECT * FROM users where username = $1 and password = $2`;
+    const query = "SELECT * FROM users where username = $1 and password = $2";
 
     const result = await client.query(query, [body.username, body.password]);
 
     if (result.rowCount === 0) {
       res.send("Not found");
+      return;
     }
     res.send(result.rows);
   } catch (error) {
     res.send(error.message);
   }
+});
+
+//Error middlwares
+app.use((error, req, res) => {
+  res.send(error.message);
 });
 
 app.listen(3000, () => {
