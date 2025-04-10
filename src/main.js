@@ -1,21 +1,33 @@
 import express from "express";
+import { connectionDB } from "./db/index.js";
+import { User } from "./models/index.js";
 
 const app = express();
 
+connectionDB();
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send(new Date());
-});
+app.post("/auth/register", async (req, res, next) => {
+  try {
+    const body = req.body;
+    const user = new User(body);
 
-app.get("/block", (req, res) => {
-  for (let i = 0; i < 2e10; i++) {
-    ///
+    await user.save();
+
+    res.send(user);
+  } catch (error) {
+    console.log(message);
+    res.send(error);
   }
-
-  res.send(new Date());
+});
+app.post("/auth/login", (req, res, next) => {
+  try {
+    const body = req.body;
+  } catch (error) {
+    res.send(error);
+  }
 });
 
-app.listen(5000, () => {
-  console.log(5000);
+app.listen(4000, () => {
+  console.log("server running on port 4000");
 });
