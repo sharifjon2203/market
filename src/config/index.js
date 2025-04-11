@@ -5,4 +5,5 @@ export const config = {
   db: {
     url: process.env.DATABASE_URL,
   },
+  nodeEnv: process.env.NODE_ENV,
 };

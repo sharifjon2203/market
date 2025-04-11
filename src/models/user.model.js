@@ -1,34 +1,53 @@
 import mongoose from "mongoose";
-import { userCollectionName } from "../common/constants/db.js";
+import { collections } from "../common/constants/db.js";
+
 const userSchema = new mongoose.Schema(
   {
-    first_name: String,
-    last_name: {
+    full_name: {
       type: String,
       trim: true,
       lower: true,
-    },
-    age: {
-      type: Number,
     },
     email: {
       type: String,
+      require: true,
       unique: true,
       trim: true,
       lower: true,
     },
-    username: {
+    password: {
       type: String,
-      unique: true,
+      require: true,
       trim: true,
-      lower: true,
+      min: 5,
+      max: 50,
     },
-    phone_number: String,
-    password: String,
   },
   {
     timestamps: true,
-  }
+  },
 );
 
-export const User = mongoose.model(userCollectionName, userSchema);
+userSchema.pre("save", async function (next) {
+  try {
+    if (!this.isModified("password")) return next();
+
+    // const salt = await bcrypt.genSalt(10);
+    // this.password = await bcrypt.hash(this.password, salt);
+    this.password = this.password + "HASKER";
+
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
+
+userSchema.methods.isValidPassword = async function (password) {
+  try {
+    return await bcrypt.compare(password, this.password);
+  } catch (error) {
+    throw new Error("Password comparison failed");
+  }
+};
+
+export const User = mongoose.model(collections.user, userSchema);

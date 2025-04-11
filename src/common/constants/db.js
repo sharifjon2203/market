@@ -1,2 +1,6 @@
-export const userCollectionName = "User";
-export const blogCollectionName = "Blog";
+export const collections = Object.freeze({
+  user: "User",
+  category: "Category",
+  product: "Product",
+  order: "Order",
+});
