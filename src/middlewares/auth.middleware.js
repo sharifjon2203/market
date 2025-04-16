@@ -19,6 +19,7 @@ export const authMiddleware = async (req, res, next) => {
 
         if (login === user.email && password === user.password) {
             // res.send("access granted")
+            req.user = user;
             next()
             return;
         }
