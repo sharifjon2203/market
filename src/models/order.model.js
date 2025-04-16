@@ -4,6 +4,7 @@ import { collections } from "../common/constants/db.js";
 const orderSchema = new mongoose.Schema(
   {
     status: {
+      type: String,
       enum: ["processing", "shipped", "delivered"],
     },
     total: {

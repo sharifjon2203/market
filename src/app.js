@@ -24,7 +24,9 @@ app.use("/api/v1", appRouter);
 //   customMiddelware,
 //   // customController.findAll,
 // );
-
+app.use((req, res) => {
+  res.status(500).json({ message: "Internal server error !!!" })
+})
 // app.use(ErrorMiddleware);
 
 export default app;

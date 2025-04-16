@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { collections } from "../common/constants/db.js";
 
+
 const categorySchema = new mongoose.Schema(
   {
     name: {
@@ -8,7 +9,7 @@ const categorySchema = new mongoose.Schema(
       required: true,
       trim: true,
       min: 3,
-      max: 100,
+      max: 100
     },
   },
   {

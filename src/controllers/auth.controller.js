@@ -1,7 +1,7 @@
 import { status } from "http-status";
 
 import { User } from "../models/index.js";
-
+import { loginUser } from "../service/login.service.js";
 export const authController = {
   signUp: async (req, res, next) => {
     try {
@@ -19,17 +19,35 @@ export const authController = {
         res.send(newUser);
       }
 
-      res.send("User already exists!;");
+      res.status(409).json({
+        "message": "User already exists!"
+      });
       return;
     } catch (err) {
       next(err);
     }
   },
-  signIn: (req, res, next) => {
+
+  signIn: async (req, res, next) => {
     try {
-      //
-    } catch (err) {
-      next(err);
+      let user = await loginUser(req.body.email, req.body.password)
+      if (user) {
+        res.status(201).send({
+          message: "Login success...",
+          full_name: user.full_name,
+        });
+      }
+
+
+    } catch (e) {
+      console.log(e);
+      res.status(500).send({
+        message: "Login or password incorrect!",
+
+      });
     }
   },
+
+
+
 };

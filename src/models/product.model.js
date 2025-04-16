@@ -36,4 +36,4 @@ const productSchema = new mongoose.Schema(
   },
 );
 
-export const Blog = mongoose.model(collections.product, productSchema);
+export const Product = mongoose.model(collections.product, productSchema);
