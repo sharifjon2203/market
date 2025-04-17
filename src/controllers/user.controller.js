@@ -8,13 +8,15 @@ export const userController = {
       const userData = req.user;
       console.log(userData);
       const user = await User.findOne({ email });
+
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }
+
       res.status(200).json({
-        userData,
-        user: { full_name: user.full_name, email: user.email },
+        user: { full_name: userData.full_name, email: userData.email },
       });
+
     } catch (err) {
       next(err);
     }

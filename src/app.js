@@ -8,13 +8,17 @@ import {
 } from "./middlewares/custom.middleware.js";
 import { roleGuard } from "./middlewares/guard.middleware.js";
 import { appRouter } from "./routes/index.js";
+// import { authMiddleware } from "../middlewares/auth.middleware.js";
+import { authMiddleware } from "../src/middlewares/auth.middleware.js";
+
+
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("combined"));
 
-app.use("/api/v1", appRouter);
+app.use("/api/v1", authMiddleware, appRouter);
 //role = user, moderator, guest, admin, superadmin
 
 // app.use(
@@ -24,6 +28,7 @@ app.use("/api/v1", appRouter);
 //   customMiddelware,
 //   // customController.findAll,
 // );
+
 app.use((req, res) => {
   res.status(500).json({ message: "Internal server error !!!" })
 })

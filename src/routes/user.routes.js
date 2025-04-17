@@ -6,7 +6,7 @@ import { authMiddleware } from "../middlewares/auth.middleware.js";
 
 export const userRouter = Router();
 
-userRouter.get("/profile", authMiddleware, userController.profile);
+userRouter.get("/profile", userController.profile);
 userRouter.put("/", userController.update);
 userRouter.delete("/", userController.delete);
 

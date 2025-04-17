@@ -26,6 +26,7 @@ export const authMiddleware = async (req, res, next) => {
         res.status(401).send("Autentification required")
 
     } catch (e) {
-        next(e)
+        res.status(401).send("Autentification required")
+        // next(e)
     }
 }
